@@ -1,0 +1,249 @@
+<!--Extended Table starts-->
+<div class="row">
+    <div class="col-12">
+        <div class="content-header">CAMPAIGN</div>
+        <p class="content-sub-header">Your GUMME INVITES</p>
+    </div>
+</div>
+<section id="extended">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                        <div class="card-title-wrap bar-success">
+                    <h4 class="card-title">Invites</h4>
+                  <div class="text-right">
+                      <button class="btn btn-success " style="color:white !important" (click)="goAdd()">ADD INVITES</button>
+                  </div>
+                        </div>
+                </div>
+                <div class="card-body">
+                    <div class="card-block">
+                      <div class="row">
+                          <div class="col-md-3">
+                              <div class="form-group" *ngIf="deals">
+                                  <label for="">Search Invites</label>
+                                  <input type="search" [(ngModel)]="userFilter.title"
+                                    class="form-control" placeholder="Search user">
+                                </div>
+                          </div>
+                          <div class="col-md-3">
+                              <div class="form-group" *ngIf="deals">
+                                  <label for="">STATUS</label>
+                                  <select class="form-control"  [(ngModel)]="userFilter.status">
+                                      <option value="active">Active</option>
+                                      <option value="pending">Pending</option>
+                                      <option value="declined">Declined</option>
+                                      <option value="ended">Ended</option>
+                                    </select>
+                                </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label for="">DEAL TYPE</label>
+                              <select class="form-control"  [(ngModel)]="userFilter.dealType">
+                                <option value="instore">Instore</option>
+                                <option value="online">Online</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                              <div class="form-group">
+                                <label for="">Approval</label>
+                                <select class="form-control"  [(ngModel)]="userFilter.approved">
+                                  <option value="approved">approved</option>
+                                  <option value="pending">Pending</option>
+                                  <option value="cancel">Cancelled</option>
+                                </select>
+                              </div>
+                            </div>
+                        </div>
+
+                        <table class="table table-responsive-md text-center">
+                            <thead>
+                                <tr>
+                                    <th>STATUS</th>
+                                    <th>Customer</th>
+                                    <th> Title</th>
+                                    <th>Photo</th>
+                                    <th>Deal Type</th>
+                                    <th>Coupon Type</th>
+                                    <th>End Date</th>
+                                    <th>CODE</th>
+                                    <th>Approved</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="deals">
+                                <tr *ngFor="let x of deals | filterBy: userFilter">
+                                    <td>
+                                        <span class="text-success" *ngIf="x.status == 'active'">ACTIVE</span>
+                                        <span class="text-primary" *ngIf="x.status == 'ended'">ENDED</span>
+                                        <span class="text-warning" *ngIf="x.status == 'pending'">PENDING</span>
+                                        <span class="text-danger" *ngIf="x.status == 'declined'">DECLINE</span>
+
+                                    </td>
+                                    <td (click)="open(usercontent, x.userId)"  >
+                                      <img [src]="x.userPhoto || 'https://mbtskoudsalg.com/images/user-image-png.png'" class="img-sm" alt="">
+                                  <span class="alert-link btn-link" *ngIf="x.userName !== 'GUMME'"> {{x?.userName}}
+                                    <i class="fa fa-file-archive-o"  aria-hidden="true"></i>
+                                  </span>
+                                  <span *ngIf="x.userName === 'GUMME'">{{x?.userName}}</span>
+                                    </td>
+                                    <td>{{x.title}}</td>
+                                    <td><img src="{{x?.photo}}" class="img-sm"></td>
+                                    <td>
+                                      <span class="badge badge-success text-white" *ngIf="x.dealType === 'instore'">
+                                        <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
+                                        {{x.dealType}}
+                                      </span>
+                                      <span class="badge badge-warning" *ngIf="x.dealType === 'online'">
+                                          <i class="fa fa-hand-pointer-o" aria-hidden="true"></i>
+                                          {{x.dealType}}
+                                        </span>
+                                     </td>
+                                    <td>{{x.couponType || 'not-defined'}}</td>
+                                    <td class="small">
+                                        <small class="badge badge-success white small">{{x.startDate}}</small>
+                                        -
+                                        <small class="badge badge-danger white small">{{x.endDate}}</small>
+
+                                      </td>
+                                        <td>{{x.code}}</td>
+                                    <td>
+                                      <div class="form-group">
+                                        <select class="form-control" (change)="handleStatus($event,x.id)" [(ngModel)]="x.approved">
+                                            <option value="pending">Pending</option>
+                                          <option value="approved">Approved</option>
+                                          <option value="cancel">Cancel</option>
+                                        </select>
+                                      </div>
+                                    </td>
+
+
+                                    <td>
+                                        <a class="danger p-0" data-original-title="" title="" (click)="openDeal(deletecontent, x)">
+                                            <i class="fa fa-trash-o font-medium-3 mr-2"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<ng-template #usercontent let-c="close" let-d="dismiss" >
+    <div class="modal-header  text-center" >
+        <h4 class="modal-title  text-center">{{selectedUser?.name}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body  text-center" *ngIf="selectedUser">
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <img [src]="selectedUser.photo || 'https://mbtskoudsalg.com/images/user-image-png.png'" alt="" class="img-thumbnail img-fluid " style="width:15em;height:15em" >
+          </div>
+          <div class="col-md-12">
+           <h2> {{selectedUser.name}}</h2>
+          </div>
+          <div class="col-md-12">
+            {{selectedUser.email}} / {{selectedUser?.phone}}
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+            <table class="table table-sm text-center">
+                <thead>
+                    <tr>
+                        <th>STATUS</th>
+                        <th> Title</th>
+                        <th>Deal Type</th>
+                        <th>Coupon Type</th>
+                        <!-- <th>Website URL</th> -->
+                        <th>CODE</th>
+                        <th>Approved</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="userDeals">
+                    <tr *ngFor="let x of userDeals;let i = index">
+                        <td>
+                            <span class="text-success" *ngIf="x.status == 'active'">ACTIVE</span>
+                            <span class="text-primary" *ngIf="x.status == 'ended'">ENDED</span>
+                            <span class="text-warning" *ngIf="x.status == 'pending'">PENDING</span>
+                            <span class="text-danger" *ngIf="x.status == 'declined'">DECLINE</span>
+
+                        </td>
+                        <td>{{x.title}}</td>
+                        <td><img src="{{x?.photo}}" class="img-sm"></td>
+                        <td>
+                          <span class="badge badge-success text-white" *ngIf="x.dealType === 'instore'">
+                            <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
+                            {{x.dealType}}
+                          </span>
+                          <span class="badge badge-warning" *ngIf="x.dealType === 'online'">
+                              <i class="fa fa-hand-pointer-o" aria-hidden="true"></i>
+                              {{x.dealType}}
+                            </span>
+                         </td>
+                        <td>{{x.couponType || 'not-defined'}}
+
+                        </td>
+                        <td>{{x.code}}</td>
+                        <td>
+                          <div class="form-group">
+                            <select class="form-control" (change)="handleStatus($event,x.id)" [(ngModel)]="x.approved">
+                                <option value="pending">Pending</option>
+
+                              <option value="approved">Approved</option>
+                              <option value="cancel">Cancel</option>
+                            </select>
+                          </div>
+                        </td>
+
+
+                        <td>
+
+                            <a class="danger p-0" data-original-title="" title="">
+                                <i class="fa fa-trash-o font-medium-3 mr-2"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">Close</button>
+    </div>
+</ng-template>
+
+
+
+
+
+
+
+<!-- DELETE DEAL -->
+
+<ng-template #deletecontent let-c="close" let-d="dismiss" >
+    <div class="modal-header  text-center" >
+        <h4 class="modal-title  text-center">Delete DEAL?</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body  text-center" *ngIf="selectedDeal">
+      <p>Are you sure you want to delete this Deal?</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger btn-raised" (click)="deleteDeal()">DELETE</button>
+        <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">Cancel</button>
+    </div>
+</ng-template>
+

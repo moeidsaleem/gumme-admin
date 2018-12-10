@@ -1,0 +1,94 @@
+<!--Extended Table starts-->
+<div class="row">
+  <div class="col-12">
+      <div class="content-header">LATEST DEALS</div>
+      <p class="content-sub-header">Your Recent 12 deals</p>
+  </div>
+</div>
+<section id="extended">
+  <div class="row">
+      <div class="col-sm-12">
+          <div class="card">
+              <div class="card-header">
+                      <div class="card-title-wrap bar-success">
+                  <h4 class="card-title">LATEST</h4>
+                      </div>
+              </div>
+              <div class="card-body">
+                  <div class="card-block">
+                      <table class="table table-responsive-md text-center">
+                          <thead>
+                              <tr>
+                                  <th>STATUS</th>
+                                  <th>Customer</th>
+                                  <th> Title</th>
+                                  <th>Photo</th>
+                                  <th>Deal Type</th>
+                                  <th>Coupon Type</th>
+                                  <!-- <th>Website URL</th> -->
+                                  <th>CODE</th>
+                                  <th>Approved</th>
+                                  <th>Actions</th>
+                              </tr>
+                          </thead>
+                          <tbody *ngIf="deals">
+                              <tr *ngFor="let x of deals;let i = index">
+                                  <td>
+                                      <span class="text-success" *ngIf="x.status == 'active'">ACTIVE</span>
+                                      <span class="text-primary" *ngIf="x.status == 'ended'">ENDED</span>
+                                      <span class="text-warning" *ngIf="x.status == 'pending'">PENDING</span>
+                                      <span class="text-danger" *ngIf="x.status == 'declined'">DECLINE</span>
+
+                                  </td>
+                                  <td>
+                                    <img [src]="x.userPhoto || 'https://mbtskoudsalg.com/images/user-image-png.png'" class="img-sm" alt="">
+                                    {{x?.userName}}
+                                  </td>
+                                  <td>{{x.title}}</td>
+                                  <td><img src="{{x?.photo}}" class="img-sm"></td>
+                                  <td>
+                                    <span class="badge badge-success text-white" *ngIf="x.dealType === 'instore'">
+                                      <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
+                                      {{x.dealType}}
+                                    </span>
+                                    <span class="badge badge-warning" *ngIf="x.dealType === 'online'">
+                                        <i class="fa fa-hand-pointer-o" aria-hidden="true"></i>
+                                        {{x.dealType}}
+                                      </span>
+                                   </td>
+                                  <td>{{x.couponType || 'not-defined'}}
+
+                                  </td>
+                                  <td>{{x.code}}</td>
+                                  <td>
+                                    <div class="form-group">
+                                      <select class="form-control" (change)="handleStatus($event,x.id)" [(ngModel)]="x.approved">
+                                          <option value="pending">Pending</option>
+
+                                        <option value="approved">Approved</option>
+                                        <option value="cancel">Cancel</option>
+                                      </select>
+                                    </div>
+                                  </td>
+
+
+                                  <td>
+                                      <a class="success p-0" data-original-title="" title="">
+                                          <i class="fa fa-pencil font-medium-3 mr-2"></i>
+                                      </a>
+                                      <a class="info p-0" data-original-title="" title="">
+                                          <i class="fa fa-check font-medium-3 mr-2"></i>
+                                      </a>
+                                      <a class="danger p-0" data-original-title="" title="">
+                                          <i class="fa fa-trash-o font-medium-3 mr-2"></i>
+                                      </a>
+                                  </td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>

@@ -1,0 +1,171 @@
+<!-- Basic form layout section start -->
+<section id="basic-form-layouts">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="content-header">Create Campaign</div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title-wrap bar-success">
+            <h4 class="card-title" id="basic-layout-form">Add new Invite</h4>
+            <small>An invite campaign is an invitation to user to accept or deny a deal.Similar to a deal but user will be able to accept or deny.</small>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="px-3">
+            <form class="form" #formx="ngForm" (submit)="submit(formx.value)">
+              <div class="form-body">
+                <h4 class="form-section">
+                  <i class="icon-user"></i> Basic Details</h4>
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="projectinput1">Deal Title</label>
+                      <input type="text" id="projectinput1" class="form-control" name="title" ngModel>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="projectinput2">Deal Type</label>
+                        <select class="form-control" name="dealType" ngModel>
+                          <!-- <option value="instore">Instore</option> -->
+                          <option value="online">Online</option>
+                        </select>
+                    </div>
+                  </div>
+                  <!-- <div class="col-md-4" >
+                      <div class="form-group">
+                        <label for="projectinput2">Coupon Type</label>
+
+                          <select class="form-control" name="couponType" ngModel>
+                            <option value='barcode' *ngIf="formx.value.dealType === 'instore'">bar-code</option>
+                            <option value='qrcode' *ngIf="formx.value.dealType === 'instore'">qr-code</option>
+                            <option value='online'>online</option>
+                          </select>
+                      </div>
+                    </div> -->
+                  <div class="col-md-12">
+                      <div class="form-group">
+                        <label for="projectinput2">Description</label>
+                           <textarea class="form-control" name="description" id="" rows="3" ngModel></textarea>
+                      </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="projectinput3">Coupon Code</label>
+                          <input type="text" id="projectinput3" class="form-control" name="code" ngModel>
+                        </div>
+                      </div>
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="projectinput3">website URL</label>
+                        <input type="text" id="projectinput3" class="form-control" name="url" ngModel>
+                      </div>
+                    </div>
+                    <div class="col-md-4" *ngIf="formx.value.dealType === 'instore'">
+                      <div class="form-group">
+                        <label for="projectinput4">location</label>
+                        <input type="tel" id="projectinput4" class="form-control" name="location" ngModel>
+                      </div>
+                    </div>
+                  </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="projectinput3">Brand Name</label>
+                      <input type="text" id="projectinput3" class="form-control" name="brand" ngModel>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="projectinput4">Brand Phone</label>
+                      <input type="tel" id="projectinput4" class="form-control" name="brandPhone" ngModel>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="projectinput3">Start Date</label>
+                        <input type="date" id="projectinput3" class="form-control" name="startDate" ngModel>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="projectinput4">End Date</label>
+                        <input type="date" id="projectinput4" class="form-control" name="endDate" ngModel>
+                      </div>
+                    </div>
+                  </div>
+
+                <h4 class="form-section">
+                  <i class="icon-book-open"></i>More Details</h4>
+                  <label for="companyName">Photo URL</label>
+                <label class="upload-image" for="upload-image-one">
+                    <input type="file" (change)="fileChange($event,0)" placeholder="Upload file" id="upload-image-one">
+                    <div id="preview0" class="preview">
+                      <img src="" class="upload-image-one">
+                    </div>
+                  </label>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group"  *ngIf="users">
+                          <label for="projectinput5">SELECT USER</label>
+                          <select id="projectinput5" name="interested" class="form-control" (change)="changeUser($event)">
+                              <option value="">---</option>
+                            <option value='{"userName":"{{x.name}}","userId":"{{x.id}}", "userPhoto":"{{x.photo}}"}'
+                            *ngFor="let x of users">
+                            {{x.name}}</option>
+                          </select>
+                        </div>
+                      </div>
+                      <!-- <div class="col-md-6">
+                          <div class="form-group">
+                            <label for="projectinput5">STATUS</label>
+                            <select id="projectinput5" name="status" class="form-control" ngModel>
+                                <option value="active">active</option>
+                                <option value="ended">ended</option>
+                                <option value="pending">pending</option>
+                                <option value="declined">declined</option>
+                            </select>
+                          </div>
+                        </div> -->
+                  <div class="col-md-6">
+                    <div class="form-group" *ngIf="categories">
+                      <label for="projectinput5">Categories</label>
+                      <select id="projectinput5" name="interested" class="form-control" (change)="changeCategory($event)">
+                       <option value="">---</option>
+                        <option value='{"categoryName":"{{x.name}}","categoryId":"{{x.id}}"}'
+                        *ngFor="let x of categories">{{x.name}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="projectinput3">Price</label>
+                        <input type="text" id="projectinput3" class="form-control" name="price" ngModel>
+                      </div>
+                    </div>
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <button type="button" class="btn btn-raised btn-danger mr-1">
+                  <i class="icon-trash"></i> Cancel
+                </button>
+                <button type="submit" class="btn btn-raised btn-success" >
+                  <i class="icon-note"></i> Save
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,179 @@
+<!--Extended Table starts-->
+<div class="row">
+    <div class="col-12">
+        <div class="content-header">Users</div>
+        <p class="content-sub-header">All types of users with Type customer.</p>
+    </div>
+</div>
+<section id="extended">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                        <div class="card-title-wrap bar-success">
+                    <h4 class="card-title">Users</h4>
+                        </div>
+                </div>
+                <div class="card-body">
+                    <div class="card-block">
+                        <div class="form-group" *ngIf="users">
+                            <label for=""></label>
+                            <input type="search" [(ngModel)]="userFilter.name"
+                              class="form-control" placeholder="Search user">
+                          </div>
+                        <table class="table table-responsive-md text-center">
+                            <thead>
+                                <tr>
+                                    <th>Customer</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>User Type</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="users">
+                                <tr *ngFor="let x of users| filterBy: userFilter">
+                                    <td (click)="open(usercontent, x)"  >
+                                        <img [src]="x.photo || 'https://mbtskoudsalg.com/images/user-image-png.png'" class="img-sm" alt="">
+                                    <span class="alert-link btn-link" *ngIf="x.userName !== 'GUMME'"> {{x?.name}}
+                                      <i class="fa fa-file-archive-o"  aria-hidden="true"></i>
+                                    </span>
+                                      </td>
+                                    <td>
+                                      <i class="fa fa-envelope-open-o" aria-hidden="true"></i>
+                                      {{x.email}}</td>
+                                    <td>{{x.phone}}</td>
+                                    <td>{{x.userType}}</td>
+                                    <td>
+                                        <a class="success p-0" data-original-title="" title="">
+                                            <i class="fa fa-pencil font-medium-3 mr-2"></i>
+                                        </a>
+                                        <a class="danger p-0" data-original-title="" title="">
+                                            <i class="fa fa-trash-o font-medium-3 mr-2"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+<!-- DELETE USER -->
+
+<ng-template #deletecontent let-c="close" let-d="dismiss" >
+    <div class="modal-header  text-center" >
+        <h4 class="modal-title  text-center">Delete DEAL?</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body  text-center" *ngIf="selectedUser">
+      <p>Are you sure you want to delete this Deal?</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger btn-raised" (click)="deleteUser()">DELETE</button>
+        <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">Cancel</button>
+    </div>
+</ng-template>
+
+
+
+
+<!-- VIEW USER -->
+<ng-template #usercontent let-c="close" let-d="dismiss" >
+    <div class="modal-header  text-center" >
+        <h4 class="modal-title  text-center">{{selectedUser?.name}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body  text-center" *ngIf="selectedUser">
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <img [src]="selectedUser.photo || 'https://mbtskoudsalg.com/images/user-image-png.png'" alt="" class="img-thumbnail img-fluid " style="width:15em;height:15em" >
+          </div>
+          <div class="col-md-12">
+           <h2> {{selectedUser.name}}</h2>
+          </div>
+          <div class="col-md-12">
+            {{selectedUser.email}} / {{selectedUser?.phone}}
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+            <table class="table table-sm text-center">
+                <thead>
+                    <tr>
+                        <th>STATUS</th>
+                        <th> Title</th>
+                        <th>Deal Type</th>
+                        <th>Coupon Type</th>
+                        <!-- <th>Website URL</th> -->
+                        <th>CODE</th>
+                        <th>Approved</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="userDeals">
+                    <tr *ngFor="let x of userDeals;let i = index">
+                        <td>
+                            <span class="text-success" *ngIf="x.status == 'active'">ACTIVE</span>
+                            <span class="text-primary" *ngIf="x.status == 'ended'">ENDED</span>
+                            <span class="text-warning" *ngIf="x.status == 'pending'">PENDING</span>
+                            <span class="text-danger" *ngIf="x.status == 'declined'">DECLINE</span>
+
+                        </td>
+                        <td>{{x.title}}</td>
+                        <td><img src="{{x?.photo}}" class="img-sm"></td>
+                        <td>
+                          <span class="badge badge-success text-white" *ngIf="x.dealType === 'instore'">
+                            <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
+                            {{x.dealType}}
+                          </span>
+                          <span class="badge badge-warning" *ngIf="x.dealType === 'online'">
+                              <i class="fa fa-hand-pointer-o" aria-hidden="true"></i>
+                              {{x.dealType}}
+                            </span>
+                         </td>
+                        <td>{{x.couponType || 'not-defined'}}
+
+                        </td>
+                        <td>{{x.code}}</td>
+                        <td>
+                          <div class="form-group">
+                            <select class="form-control" (change)="handleStatus($event,x.id)" [(ngModel)]="x.approved">
+                                <option value="pending">Pending</option>
+
+                              <option value="approved">Approved</option>
+                              <option value="cancel">Cancel</option>
+                            </select>
+                          </div>
+                        </td>
+
+
+                        <td>
+
+                            <a class="danger p-0" data-original-title="" title="">
+                                <i class="fa fa-trash-o font-medium-3 mr-2"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">Close</button>
+    </div>
+</ng-template>
+
+
